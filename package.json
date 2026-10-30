@@ -1,0 +1,9 @@
+{
+  "name": "tv-launcher",
+  "version": "1.0.0",
+  "description": "Apple TV style launcher for Samsung Tizen",
+  "packageType": "app",
+  "appName": "Home",
+  "appPath": "index.html",
+  "keys": ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Enter"]
+}
