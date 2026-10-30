@@ -1,9 +1,10 @@
 {
   "name": "tv-launcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Apple TV style launcher for Samsung Tizen",
-  "packageType": "app",
+  "packageType": "mods",
   "appName": "Home",
-  "appPath": "index.html",
+  "websiteURL": "https://rajivkemail-ui.github.io/tv-launcher/index.html",
+  "main": "main.js",
   "keys": ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Enter"]
 }
