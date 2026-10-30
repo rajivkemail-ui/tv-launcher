@@ -1,1 +1,1 @@
-// intentionally empty: launcher page is self-contained
+(function(){ try { console.log("tv-launcher loaded"); } catch(e){} })();
