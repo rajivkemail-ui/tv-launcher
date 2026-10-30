@@ -21,15 +21,17 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;color:#fff;
 <div id="hint">Arrows to browse · OK to open</div>
 <script>
 var APPS=[
- {n:"Netflix",id:"11101200001",c:["#e50914","#2a0004"],s:"Continue watching"},
- {n:"YouTube",id:"111299001912",c:["#ff0033","#2a0010"],s:"Videos"},
- {n:"Prime Video",id:"3201512006785",c:["#00a8e1","#001a2a"],s:"Movies & series"},
- {n:"Disney+",id:"3201901017640",c:["#113ccf","#050a2a"],s:"Stories you love"},
- {n:"Spotify",id:"3201606009684",c:["#1db954","#04240f"],s:"Music"},
- {n:"Plex",id:"3201512006963",c:["#e5a00d","#2a1c00"],s:"Your library"},
- {n:"Samsung TV Plus",id:"3201710015037",c:["#1428a0","#050a2a"],s:"Free live TV"}
+ {n:"YouTube",id:"111299001912",url:"https://www.youtube.com/tv",c:["#ff0033","#2a0010"],s:"Opens YouTube (ad-free via TizenTube)"},
+ {n:"Netflix",id:"3201907018807",url:"https://www.netflix.com/browse",c:["#e50914","#2a0004"],s:"Continue watching"},
+ {n:"Prime Video",id:"3201910019365",url:"https://www.primevideo.com",c:["#00a8e1","#001a2a"],s:"Movies & series"},
+ {n:"JioHotstar",id:"3201601007625",url:"https://www.hotstar.com",c:["#113ccf","#050a2a"],s:"Cricket, movies & shows"},
+ {n:"Spotify",id:"3201606009684",url:"https://open.spotify.com",c:["#1db954","#04240f"],s:"Music"},
+ {n:"SonyLIV",id:"",url:"https://www.sonyliv.com",c:["#222","#000"],s:"Live sports & shows"},
+ {n:"ZEE5",id:"",url:"https://www.zee5.com",c:["#6c2bd9","#14062b"],s:"Shows & movies"}
 ];
 var row=document.getElementById('row'),idx=0,tiles=[];
+var dbg=document.getElementById('hint');
+dbg.textContent='tizen:'+(typeof tizen!=='undefined'?'yes':'NO')+' | arrows to browse, OK to open';
 APPS.forEach(function(a){var d=document.createElement('div');d.className='tile';d.textContent=a.n;
  d.style.background='linear-gradient(145deg,'+a.c[0]+','+a.c[1]+')';row.appendChild(d);tiles.push(d)});
 function focus(i){idx=Math.max(0,Math.min(APPS.length-1,i));
@@ -37,9 +39,11 @@ function focus(i){idx=Math.max(0,Math.min(APPS.length-1,i));
  var a=APPS[idx];document.getElementById('t').textContent=a.n;document.getElementById('s').textContent=a.s||'';
  var bg=document.getElementById('bg').style;bg.setProperty('--c1',a.c[0]);bg.setProperty('--c2',a.c[1]);
  row.scrollLeft=Math.max(0,idx*336-600)}
+function web(a){if(a.url){dbg.textContent='opening '+a.url;location.href=a.url}else{dbg.textContent='No web fallback for '+a.n}}
 function launch(){var a=APPS[idx];
- try{tizen.application.launch(a.id,function(){},function(e){document.getElementById('s').textContent='Cannot open: '+e.message})}
- catch(e){document.getElementById('s').textContent='Launch not available here'}}
+ if(typeof tizen==='undefined'||!a.id){web(a);return}
+ try{tizen.application.launch(a.id,function(){dbg.textContent='launched '+a.n},function(e){dbg.textContent='native failed ('+e.message+'), trying web';web(a)})}
+ catch(e){dbg.textContent='error: '+e.message;web(a)}}
 document.addEventListener('keydown',function(e){var k=e.keyCode;
  if(k===39)focus(idx+1);else if(k===37)focus(idx-1);else if(k===13)launch()});
 function tick(){var d=new Date();document.getElementById('clock').textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
