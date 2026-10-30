@@ -1,7 +1,7 @@
 {
   "name": "tv-launcher",
   "appName": "Home",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Apple TV style launcher for Samsung Tizen",
   "packageType": "app",
   "appPath": "dist/index.html",
